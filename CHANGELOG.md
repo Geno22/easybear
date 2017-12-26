@@ -1,5 +1,5 @@
 # easybear
-Simple work on a mini class project.
+Simple work on a mini class-project.
 v.1.0 26/12/2017:
 -retrait du b==1 du launcher
 -optimisations multiples
