@@ -41,11 +41,13 @@ def Page_Regle():
     tex1.place(x=50,y=180)
     tex2 = Label(fen, text="Les ours restent toujours autours d'un trou afin d'attrapper un phoque.",bg="#3D8771",font=("calibri","18"))
     tex2.place(x=50,y=210)
-    tex3 = Label(fen, text="Soustraire à 7 le nombre des ours pour chaque banquise",bg="#3D8771",font=("calibri","18"))
+    tex3 = Label(fen, text="Les phoques sont les points situés en dessous de la face superieure.",bg="#3D8771",font=("calibri","18"))
     tex3.place(x=50,y=240)
-    Retour = Button(fen,text="Retour",bg="#D27C8B",command=Page_RegleKill,font=("justify"))
+    tex4 = Label(fen, text="Indice : la somme des points de la face superieure et inferieure est égale à 7.",bg="#3D8771",font=("calibri","18"))
+    tex4.place(x=50,y=270)
+    Retour = Button(fen,text="Retour",bg="#D27C8B",command=Page_RegleKill)
     Retour.place(x=650,y=500)
-    global tex0,tex1,tex2,tex3,Retour
+    global tex0,tex1,tex2,tex3,tex4,Retour
     Page_Acceuil_Kill()
 #REGLE_KILL---------------------------------------------------------------------
 def Page_RegleKill():
@@ -296,7 +298,7 @@ if a == 1:
 else:
     print=("Erreur de lancement de la variable a")
 #PARTIE_GLOBAL------------------------------------------------------------------
-Titre = Label(fen,text="Les Maths Polaires",bg="red",font=("calibri","45"))
+Titre = Label(fen,text="Les Maths Polaires",bg="red",font=("calibri","45","underline"))
 Titre.place(x=50,y=20)
 Sortie = Button(fen, text="Quitter le jeu.", command = fen.destroy,bg="#D27C8B")
 Sortie.place(x=720,y=500)
