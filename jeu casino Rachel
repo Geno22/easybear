@@ -1,0 +1,127 @@
+"""Déroullement du jeu et Règles:
+   (1) le joueur déclare son sold
+   (2) il choisit de miser la somme qu'il souhaite sur un nombre entre 0 et 49
+   (3) le croupier lance la bille sur la roulette
+   (4) le numéro où s'arrête la bille est le numéro gagnant
+   (5) si le numero gagnant et aussi celui choisit par le joueur c'est gagner!
+   le croupier lui donne le triple de sa mise et lui rend sa mise
+   (6) les nombres impaires sont les cases rouges et les paires les cases
+   noires. si le joueur n'a rien gagner avant, le croupiers regarde si le nombre
+   choisit par le joueur et le numéro gagnant font partie de la même catégorie
+   c'est à dire si les 2 sont paires ou impaires.
+   (7) si c'est le cas le joueur recupère sa mise et lui croupier lui verse en
+   plus la moitié de sa mise
+   (8) si ce n'est pas le cas le joueur à définitivement perdu cette manche
+   (9) la partie s'arrête lorsque le sold du joueur est égale à zéro """
+
+
+#importations___________________________________________________________________________________________________________________________
+import os
+from random import randint
+import math #pas encore utilisé mais dans un futur proche
+
+#variables et definitions_______________________________________________________________________________________________________________
+def sold():
+    global soldJoueur
+    try:
+        soldJoueur = input("De combien d'argent disposez vous?")
+        soldJoueur = float(soldJoueur)
+        while soldJoueur < 0:
+            soldJoueur = input("Votre sold est négatif revenez quand vous n'aurez plus de dette")
+            soldJoueur = float(soldJoueur)
+    except ValueError as Erreur_Valeur:
+        soldJoueur = input("Erreur entrer une valeur chiffrés SVP.")
+        while type(soldJoueur) == str:
+            try:
+                soldJoueur = float(soldJoueur)
+                while soldJoueur < 0:
+                    soldJoueur = input("Votre sold est négatif revenez quand vous n'aurez plus de dette")
+                    soldJoueur = float(soldJoueur)
+            except:
+                soldJoueur = input("Erreur entrer une valeur chiffrés SVP.")
+
+
+def mise():
+    global miseJoueur
+    try:
+        miseJoueur = input("Quel Somme souhaitez vous miser ?")
+        miseJoueur = float(miseJoueur)
+        while miseJoueur > soldJoueur or miseJoueur <= 0:
+            print("Rappel votre sold actuel est de",soldJoueur,"$")
+            miseJoueur = input("mise impossible. Quel Somme souhaitez vous miser ?")
+            miseJoueur = int(miseJoueur)
+    except ValueError as Erreur_Valeur:
+        while type(miseJoueur) == str:
+            try:
+                miseJoueur = float(miseJoueur)
+                while miseJoueur > soldJoueur or miseJoueur <=0:
+                    print("Rappel votre sold actuel est de",soldJoueur,"$")
+                    miseJoueur = input("mise impossible. Quel Somme souhaitez vous miser ?")
+                    miseJoueur = float(miseJoueur)
+            except:
+                miseJoueur = input("Erreur entrer une valeur chiffrés SVP.")
+    print("vous avez choisit de miser",miseJoueur,"$")
+
+
+
+def choix():
+    global choixJoueur
+    try:
+        choixJoueur = input("un nombre entre 0 et 49 SVP?")
+        choixJoueur = int(choixJoueur)
+        while choixJoueur > 49 or choixJoueur < 0:
+            choixJoueur = input("Erreur. Entrer une valeur comprise entre 0 et 49")
+            choixJoueur = int(choixJoueur)
+    except ValueError as Erreur_Valeur:
+        while type(choixJoueur) == str:
+            try:
+                choixJoueur = int(choixJoueur)
+                while choixJoueur > 49 or choixJoueur < 0:
+                    choixJoueur = input("Erreur. Entrer une valeur comprise entre 0 et 49")
+                    choixJoueur = int(choixJoueur)
+            except:
+                choixJoueur = input("Erreur entrer une valeur chiffrés SVP.")
+    print("Vous avez choisit de miser sur le nombre",choixJoueur)
+
+
+
+def paire_impaireJoueur():#def invalide si demander avant choix()
+    global choixJoueur
+    if choixJoueur % 2 == 0:
+        choixJoueur = 0
+    else:
+        choixJoueur = 1
+
+
+
+def paire_impaireTirage():#def invalide si demander avant varable tirage.
+    global tirage
+    if tirage % 2 == 0:
+        tirage = 0
+    else:
+        tirage = 1
+
+#programe_______________________________________________________________________________________________________________________________
+sold()
+print("Votre solde est de", soldJoueur, "$")
+while soldJoueur != 0:
+    mise()
+    choix()
+    tirage = randint(0,49)
+    print("Le numéro gagnant est",tirage)
+    if choixJoueur == tirage:
+        print("Félicitation, Vous avez Gagner!")
+        soldJoueur = soldJoueur + miseJoueur +(3*miseJoueur)
+    else:
+        paire_impaireJoueur()
+        paire_impaireTirage()
+        if tirage == choixJoueur:
+            print("Félicitation, Vous avez Gagner!")
+            soldJoueur = soldJoueur + miseJoueur + (miseJoueur/2)
+        else:
+            print("Dommage la prochaine partie est la bonne. je sens que la chance est de votre côté.")
+            soldJoueur = soldJoueur - miseJoueur
+    print("votre sold actuel est de",soldJoueur,"$")
+print("vous allez manger des pâtes pour finir votre mois. ")
+os.system("pause")
+#FIN____________________________________________________________________________________________________________________________________
